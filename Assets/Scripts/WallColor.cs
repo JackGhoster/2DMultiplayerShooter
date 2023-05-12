@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WallColor : MonoBehaviour
 {
-
     [SerializeField]
     private List<SpriteRenderer> _walls = new List<SpriteRenderer>();
 
