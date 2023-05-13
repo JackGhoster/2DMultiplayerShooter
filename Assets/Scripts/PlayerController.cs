@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        _joystick = GameObject.FindWithTag("Joystick").GetComponent<FixedJoystick>();
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
