@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 /// <summary>
 /// Basic pooler that creates a bunch of objects in the hierarchy and sets them inactive upon instantiation.
 /// Instantiates object in a parent
 /// </summary>
-public class ObjectPooler : MonoBehaviour
+public class OfflineObjectPooler : MonoBehaviour
 {
     [SerializeField]
     private GameObject _prefab;
@@ -21,8 +22,9 @@ public class ObjectPooler : MonoBehaviour
         //instantiates in a parent
         for (int i = 0; i < _amountToPool; i++)
         {
-            GameObject obj = Instantiate(_prefab, transform);
+            GameObject obj = PhotonNetwork.Instantiate(_prefab.name, transform.position, transform.rotation);
             obj.SetActive(false);
+            obj.transform.parent = transform;
             _pooledObjects.Add(obj);
         }
     }

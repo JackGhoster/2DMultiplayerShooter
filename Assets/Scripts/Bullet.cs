@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Photon.Pun;
 public class Bullet : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
@@ -21,18 +21,23 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerHealthLogic playerHealth = collision.GetComponent<PlayerHealthLogic>();
-            playerHealth.UpdateCurrentHealth(1);
+            playerHealth.GetComponent<PhotonView>().RPC("UpdateCurrentHealth", RpcTarget.AllBuffered, 1f,true);
+            //playerHealth.UpdateCurrentHealth(1);
         }
         if (!collision.CompareTag("Coin")) this.enabled = false; 
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnEnable()
     {
-        
+        Invoke("TooLongInAir",2);
     }
-
     private void OnDisable()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        PhotonNetwork.Destroy(this.gameObject);
+    }
+
+    private void TooLongInAir()
+    {
+        this.enabled = false;
     }
 }
